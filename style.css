@@ -34,16 +34,25 @@ body {
   color: var(--white);
   padding: 40px;
 }
-/* Teks di atas bingkai: ukuran ikut skala gambar (lebar gambar = max(100cqw, 70.9cqh)) */
-.crest-text {
-  --u: max(100cqw, 70.9cqh);
-  position: absolute; left: 50%; transform: translate(-50%, -50%); text-align: center; white-space: nowrap;
-  font-family: 'Cormorant Garamond', serif; font-weight: 500; text-transform: uppercase; color: #C7A58C;
-}
-.crest-initials { top: 47.2%; display: flex; flex-direction: column; font-size: calc(var(--u) * .133); line-height: .8; letter-spacing: 0; }
-.crest-names { top: 70.8%; font-size: calc(var(--u) * .031); letter-spacing: .08em; }
-.crest-date { top: 73.7%; font-size: calc(var(--u) * .0195); letter-spacing: .1em; }
 
+
+.sidebar-content h1.title-handwriting {
+  font-size: 4rem;
+  color: #f3e5ab;
+  margin: 10px 0;
+}
+.sidebar-subtitle {
+  font-size: 1.1rem;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: #ddd;
+}
+.sidebar-date {
+  font-size: 1.2rem;
+  letter-spacing: 2px;
+  color: #f3e5ab;
+  margin-top: 10px;
+}
 
 /* SISI KANAN: Frame HP tempat konten undangan berada */
 .desktop-phone-frame {
