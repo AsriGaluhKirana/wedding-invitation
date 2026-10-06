@@ -3,10 +3,9 @@ const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwlHOnh3HEyT7WgUvT0i
 // +07:00 = WIB, supaya countdown sama untuk semua tamu di zona waktu mana pun
 const WEDDING_DATE = new Date("2027-01-10T09:00:00+07:00").getTime();
 
-const VENUE_NAME = "Nama Gedung / Hotel, Alamat Lengkap";
+const VENUE_NAME = "Ruang serba guna masjid mujahidin, Jalan Palapa VI Jakarta Barat";
 const MAPS_URL = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(VENUE_NAME)}`;
-
-const CAL_TITLE = encodeURIComponent("The Wedding of Willow & Kala");
+const CAL_TITLE = encodeURIComponent("The Wedding of Asri & Arif");
 const CAL_DETAILS = encodeURIComponent("We are excited to celebrate our special day with you!");
 const CAL_LOCATION = encodeURIComponent(VENUE_NAME);
 const CAL_DATES = "20260911T020000Z/20260911T070000Z"; // 09.00-14.00 WIB
@@ -19,6 +18,22 @@ let observer;
 document.addEventListener("DOMContentLoaded", () => {
   $("#mapBtn").href = MAPS_URL;
   $("#saveTheDateBtn").href = CALENDAR_URL;
+
+// 1. Update tombol link Google Maps
+  const mapBtn = document.getElementById("mapBtn");
+  if (mapBtn) mapBtn.href = MAPS_URL;
+
+  // 2. Update teks alamat di bawah peta secara otomatis
+  const addressEl = document.getElementById("venueAddressText");
+  if (addressEl) {
+    addressEl.innerHTML = VENUE_NAME.replace(/, /g, "<br>");
+  }
+
+  // 3. Update Iframe Google Maps secara otomatis sesuai VENUE_NAME
+  const mapIframe = document.getElementById("mapIframe");
+  if (mapIframe) {
+    mapIframe.src = `https://www.google.com/maps?q=${encodeURIComponent(VENUE_NAME)}&output=embed`;
+  }
 
   showGuestName();
   setupReveal();
@@ -183,8 +198,8 @@ function setupMusic() {
     else music.pause();
   });
   // Label selalu sinkron dengan kondisi musik sebenarnya
-  music.addEventListener("play", () => (btn.innerHTML = "★ Tap to Pause Music"));
-  music.addEventListener("pause", () => (btn.innerHTML = "★ Tap to Play Music"));
+  music.addEventListener("play", () => (btn.innerHTML = "★ Pause Music"));
+  music.addEventListener("pause", () => (btn.innerHTML = "★ Play Music"));
 }
 
 // ===== COUNTDOWN =====
@@ -296,4 +311,24 @@ function escapeHtml(text) {
     .replace(/</g, "&lt;")
     .replace(/>/g, "&gt;")
     .replace(/"/g, "&quot;");
+}
+
+
+// ===== LIGHTBOX GALERI FOTO =====
+function openLightbox(element) {
+  const modal = document.getElementById("photoLightbox");
+  const lightboxImg = document.getElementById("lightboxImg");
+  const img = element.querySelector("img");
+  
+  if (modal && lightboxImg && img) {
+    lightboxImg.src = img.src;
+    modal.classList.add("active");
+  }
+}
+
+function closeLightbox() {
+  const modal = document.getElementById("photoLightbox");
+  if (modal) {
+    modal.classList.remove("active");
+  }
 }
