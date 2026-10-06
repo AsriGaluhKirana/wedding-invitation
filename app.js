@@ -1,9 +1,9 @@
 // ===== CONFIGURATION =====
 const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwlHOnh3HEyT7WgUvT0i8hrykL8dQY39LrsBjqrNtI2wvq-svFYXyqDmwe_ofGYyM-V/exec";
 // +07:00 = WIB, supaya countdown sama untuk semua tamu di zona waktu mana pun
-const WEDDING_DATE = new Date("2026-09-11T09:00:00+07:00").getTime();
+const WEDDING_DATE = new Date("2027-01-10T09:00:00+07:00").getTime();
 
-const VENUE_NAME = "Dialoog Banyuwangi, Jl. Yos Sudarso, Klatak, Kalipuro, Banyuwangi";
+const VENUE_NAME = "Nama Gedung / Hotel, Alamat Lengkap";
 const MAPS_URL = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(VENUE_NAME)}`;
 
 const CAL_TITLE = encodeURIComponent("The Wedding of Willow & Kala");
@@ -26,7 +26,69 @@ document.addEventListener("DOMContentLoaded", () => {
   setupMusic();
   setupForm();
   setupCopy();
+  generateCalendar();
 });
+
+// ===== KALENDER OTOMATIS =====
+function generateCalendar() {
+  const weddingDateObj = new Date(WEDDING_DATE);
+  const year = weddingDateObj.getFullYear();
+  const month = weddingDateObj.getMonth(); // 0 = Januari, 8 = September
+  const weddingDay = weddingDateObj.getDate(); // Tanggal 11
+
+  // Daftar nama bulan
+  const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+  
+  // Set judul bulan dan tahun
+  const monthYearEl = $("#calMonthYear");
+  if (monthYearEl) {
+    monthYearEl.innerText = `${monthNames[month]} ${year}`;
+  }
+
+  const tbody = $("#calendarBody");
+  if (!tbody) return;
+  tbody.innerHTML = "";
+
+  // Hitung hari pertama di bulan tersebut dan total hari dalam bulan tersebut
+  const firstDayIndex = new Date(year, month, 1).getDay();
+  const totalDays = new Date(year, month + 1, 0).getDate();
+
+  let dateCounter = 1;
+  let html = "";
+
+  // Buat maksimal 6 baris minggu
+  for (let i = 0; i < 6; i++) {
+    let row = "<tr>";
+    
+    for (let j = 0; j < 7; j++) {
+      if (i === 0 && j < firstDayIndex) {
+        // Kotak kosong sebelum tanggal 1 di bulan itu
+        row += "<td></td>";
+      } else if (dateCounter > totalDays) {
+        // Kotak kosong setelah tanggal terakhir bulan itu
+        row += "<td></td>";
+      } else {
+        // Format angka dengan dua digit (01, 02, dst)
+        let formattedDay = String(dateCounter).padStart(2, "0");
+        
+        if (dateCounter === weddingDay) {
+          // Beri tanda bintang/highlight pada tanggal pernikahan
+          row += `<td><span class="highlight-star">${formattedDay}</span></td>`;
+        } else {
+          row += `<td>${formattedDay}</td>`;
+        }
+        dateCounter++;
+      }
+    }
+    row += "</tr>";
+    html += row;
+
+    // Hentikan looping jika tanggal sudah habis
+    if (dateCounter > totalDays) break;
+  }
+
+  tbody.innerHTML = html;
+}
 
 // Nama tamu dari link: ...index.html?to=Budi
 function showGuestName() {

@@ -3,9 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Asri & Arif | Wedding Invitation</title>
+  <title>Willow & Kala | Wedding Invitation</title>
   
-  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Quicksand:wght@400;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Quicksand:wght@400;600;700&family=Cormorant+Garamond:wght@500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <link rel="stylesheet" href="style.css">
 </head>
@@ -18,22 +18,13 @@
 
   <!-- STRUKTUR UTAMA DESKTOP (SPLIT: KIRI BACKGROUND & INFO, KANAN TAMPILAN HP) -->
   <div class="desktop-layout">
-
-     <!-- SISI KIRI: Background Estetik & Nama Mempelai (Hanya tampil di Desktop) -->
-    <div class="desktop-sidebar">
-      <div class="crest-text crest-initials"><span>A</span><span>S</span></div>
-      <p class="crest-text crest-names" style="margin-top: 11rem;">Asri &amp; Sofiyan</p>
-      <p class="crest-text crest-date" style="margin-top: 12rem;">11.09.2026</p>
-    </div>
     
     <!-- SISI KIRI: Background Estetik & Nama Mempelai (Hanya tampil di Desktop) -->
-    <!-- <div class="desktop-sidebar maroon-bg white-text">
-      <div class="sidebar-content">
-        <p class="sidebar-subtitle">The Wedding of</p>
-        <h1 class="title-handwriting">Asri &amp; Arif</h1>
-        <p class="sidebar-date">00.01.1999</p>
-      </div>
-    </div> -->
+    <div class="desktop-sidebar">
+      <div class="crest-text crest-initials"><span>W</span><span>K</span></div>
+      <p class="crest-text crest-names">Willow &amp; Kala</p>
+      <p class="crest-text crest-date">11.09.2026</p>
+    </div>
 
     <!-- SISI KANAN: TAMPILAN MOBILE / FRAME HP YANG BERISI KONTEN UNDANGAN -->
     <div class="desktop-phone-frame">
@@ -41,8 +32,9 @@
       <!-- COVER SECTION -->
       <section id="cover" class="section cover-section">
         <img src="flower-top.png" alt="Decor" class="decor-top-right">
+        <p id="guestLine" class="guest-line hidden">Kepada Yth.<br><strong id="guestName"></strong></p>
         
-        <h1 class="title-handwriting olive-text">These Kids are <br> Getting Married</h1>
+        <h1 class="title-handwriting olive-text">These Kids<br>are Getting<br>Married</h1>
         
         <div class="couple-illustrations">
           <img src="bride-avatar.png" alt="Bride" class="avatar-img">
@@ -50,9 +42,8 @@
         </div>
         
         <h2 class="title-handwriting maroon-text">Willow &amp; Kala</h2>
-        <p class="date-text maroon-text">00.01.99</p>
+        <p class="date-text maroon-text">11.09.26</p>
         
-        <p id="guestLine" class="guest-line">Kepada Yth.<br><strong id="guestName"></strong></p>
         <button class="btn-open maroon-bg" onclick="openInvitation()">Buka Undangan</button>
         <img src="flower-bottom.png" alt="Decor" class="decor-bottom-left">
       </section>
@@ -67,21 +58,21 @@
           <div class="couple-cards">
             <div class="card-maroon">
               <img src="bride-full.png" alt="Bride" class="full-avatar">
-              <!-- <div class="pearl-chain left"></div> -->
+              <div class="pearl-chain left"></div>
             </div>
             <div class="card-maroon">
               <img src="groom-full.png" alt="Groom" class="full-avatar">
-              <!-- <div class="pearl-chain right"></div> -->
+              <div class="pearl-chain right"></div>
             </div>
           </div>
 
           <h2 class="title-handwriting maroon-text name-large">Willow</h2>
-          <p class="parent-text" style="margin-bottom: .980rem;">Daughter of Mr. xxx & Mrs. xxx<br>Jakarta</p>
+          <p class="parent-text">Putri Kedua dari Bapak & Ibu<br>Banyuwangi</p>
           
           <h2 class="title-handwriting maroon-text ampersand">&amp;</h2>
           
           <h2 class="title-handwriting maroon-text name-large">Kala</h2>
-          <p class="parent-text">Son of Mr. xxx & Mrs. xxx<br>Malang</p>
+          <p class="parent-text">Putra Pertama dari Bapak & Ibu<br>Malang</p>
         </section>
 
         <!-- COUNTDOWN SECTION -->
@@ -106,28 +97,29 @@
           <img src="disco-balls.png" alt="Disco" class="disco-img">
           
           <div class="calendar-box maroon-bg white-text">
-            <h3 id="calMonthYear" class="title-handwriting"></h3>
+            <h3 class="title-handwriting">September</h3>
             <table class="calendar-table">
-              <thead>
-                <tr><th>S</th><th>M</th><th>T</th><th>W</th><th>T</th><th>F</th><th>S</th></tr>
-              </thead>
-              <tbody id="calendarBody">
-                <!-- Tanggal akan digenerate otomatis oleh JavaScript -->
-                </tbody>
-              </table>
-            </div>
+              <tr><th>S</th><th>M</th><th>T</th><th>W</th><th>T</th><th>F</th><th>S</th></tr>
+              <tr><td></td><td></td><td>01</td><td>02</td><td>03</td><td>04</td><td>05</td></tr>
+              <tr><td>06</td><td>07</td><td>08</td><td>09</td><td>10</td><td><span class="highlight-star">11</span></td><td>12</td></tr>
+              <tr><td>13</td><td>14</td><td>15</td><td>16</td><td>17</td><td>18</td><td>19</td></tr>
+              <tr><td>20</td><td>21</td><td>22</td><td>23</td><td>24</td><td>25</td><td>26</td></tr>
+              <tr><td>27</td><td>28</td><td>29</td><td>30</td><td></td><td></td><td></td></tr>
+            </table>
+          </div>
+
           <h2 class="title-handwriting maroon-text section-title">AKAD</h2>
           <p class="event-text">Jum'at, 11 September 2026<br>Jam 09.00 WIB</p>
           
           <h2 class="title-handwriting maroon-text section-title mt-2">RESEPSI</h2>
-          <p class="event-text">Jum'at, 11 September 2026<br>Jam 13.00 s/d 15.00 WIB</p>
+          <p class="event-text">Jum'at, 11 September 2026<br>Jam 11.00 WIB</p>
           
           <div class="map-placeholder">
             <iframe src="https://www.google.com/maps?q=Dialoog+Banyuwangi&output=embed" loading="lazy" title="Peta lokasi" allowfullscreen></iframe>
           </div>
           
           <h2 class="title-handwriting maroon-text section-title mt-2">LOKASI</h2>
-          <p class="event-text">Gedung Serbaguna Masjid Mujahidin<br>Jalan Palapa VI Jakarta Barat</p>
+          <p class="event-text">Dialoog Banyuwangi<br>Jl. Yos Sudarso, Klatak, Kec. Kalipuro, Banyuwangi</p>
           
           <div class="button-group">
             <a id="saveTheDateBtn" href="#" target="_blank" class="btn-action maroon-bg">Simpan Tanggal</a>
@@ -151,7 +143,7 @@
               <div class="timeline-dot olive-bg"></div>
               <div class="timeline-content">
                 <h6 class="title-handwriting maroon-text">2026 - The Proposal</h6>
-                <p>On an ordinary day that suddenly felt anything but, one question turned into the easiest yes we have ever given.</p>
+                <p>On an ordinary evening that suddenly felt anything but, one question turned into the easiest yes we have ever given.</p>
               </div>
             </div>
             <div class="timeline-item">

@@ -25,20 +25,33 @@ body {
 
 /* SISI KIRI: Sidebar Background & Info Mempelai */
 .desktop-sidebar {
-  flex: 1; position: relative; overflow: hidden; container-type: size;
-  /* posisi 50% 46.5% = pusat bingkai emas selalu di titik yang sama, berapa pun ukuran layar */
-  background: #6B0A28 url('background-clean.jpg') 50% 46.5% / cover no-repeat;
+  flex: 1;
+  background: linear-gradient(rgba(92, 22, 29, 0.75), rgba(92, 22, 29, 0.75)), url('minangkabau-bg.jpg') center/cover no-repeat;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  color: var(--white);
+  padding: 40px;
 }
-/* Teks di atas bingkai: ukuran ikut skala gambar (lebar gambar = max(100cqw, 70.9cqh)) */
-.crest-text {
-  --u: max(100cqw, 70.9cqh);
-  position: absolute; left: 50%; transform: translate(-50%, -50%); text-align: center; white-space: nowrap;
-  font-family: 'Cormorant Garamond', serif; font-weight: 500; text-transform: uppercase; color: #C7A58C;
-}
-.crest-initials { top: 47.2%; display: flex; flex-direction: column; font-size: calc(var(--u) * .133); line-height: .8; letter-spacing: 0; }
-.crest-names { top: 70.8%; font-size: calc(var(--u) * .031); letter-spacing: .08em; }
-.crest-date { top: 73.7%; font-size: calc(var(--u) * .0195); letter-spacing: .1em; }
 
+.sidebar-content h1.title-handwriting {
+  font-size: 4rem;
+  color: #f3e5ab;
+  margin: 10px 0;
+}
+.sidebar-subtitle {
+  font-size: 1.1rem;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: #ddd;
+}
+.sidebar-date {
+  font-size: 1.2rem;
+  letter-spacing: 2px;
+  color: #f3e5ab;
+  margin-top: 10px;
+}
 
 /* SISI KANAN: Frame HP tempat konten undangan berada */
 .desktop-phone-frame {
@@ -74,11 +87,34 @@ body {
   cursor: pointer; text-decoration: none; display: inline-block; margin: 5px;
 }
 
+/* Efek Stempel Lilin Klasik (Wax Seal) */
+.wax-seal {
+  width: 60px;
+  height: 60px;
+  background-color: var(--maroon);
+  border: 2px dashed #f3e5ab;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 auto 20px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+  position: relative;
+}
+
 .cover-section {
   height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center;
 }
-.decor-top-right { position: absolute; top: -10px; right: -10px; width: 120px; transform: rotate(180deg); }
-.decor-bottom-left { position: absolute; bottom: 0; left: -10px; width: 120px; }
+.decor-top-right { 
+  position: absolute; 
+  top: 0 !important; 
+  right: 0 !important; 
+  left: auto !important;
+  width: 120px; 
+  z-index: 10;
+  transform-origin: top right;
+  animation: swayTop 7s ease-in-out infinite; 
+}.decor-bottom-left { position: absolute; bottom: 0; left: -10px; width: 120px; }
 
 .couple-illustrations { display: flex; justify-content: center; gap: 15px; margin: 30px 0; }
 .avatar-img { width: 110px; height: 140px; background-color: var(--maroon); border-radius: 40px; object-fit: cover; padding: 5px; }
@@ -186,7 +222,7 @@ html {
 
 /* Cover: animasi masuk berurutan + keluar saat undangan dibuka */
 .cover-section { height: 100vh; height: 100svh; overflow: hidden; }
-.guest-line { font-size: .85rem; color: var(--maroon); line-height: 1.5; margin-bottom: 14px; }
+.guest-line { font-size: 1rem; color: var(--maroon); line-height: 1.5; margin-bottom: 14px; margin-top: 1rem;}
 .date-text { font-family: 'Caveat', cursive; font-size: 1.8rem; }
 .cover-section > .guest-line, .cover-section > .title-handwriting, .cover-section > .couple-illustrations,
 .cover-section > .date-text, .cover-section > .btn-open {
@@ -194,7 +230,7 @@ html {
   animation-delay: calc(var(--i, 0) * .13s + .15s);
 }
 @keyframes rise { from { opacity: 0; transform: translateY(34px); } }
-.decor-top-right { animation: swayTop 6s ease-in-out infinite; transform-origin: 100% 0; }
+.decor-top-right { animation: swayTop 7s ease-in-out infinite; transform-origin: 100%; }
 .decor-bottom-left { animation: swayBottom 7s ease-in-out infinite; transform-origin: 0 100%; }
 @keyframes swayTop { 0%,100% { transform: rotate(180deg); } 50% { transform: rotate(173deg); } }
 @keyframes swayBottom { 0%,100% { transform: rotate(0); } 50% { transform: rotate(5deg); } }
@@ -214,7 +250,7 @@ html {
 
 /* Scroll reveal per elemen (arah diatur lewat --from) */
 .reveal {
-  opacity: 0; transform: var(--from, translateY(28px));
+  opacity: 100; transform: var(--from, translateY(28px));
   transition: opacity .9s cubic-bezier(.2,.8,.2,1), transform .9s cubic-bezier(.2,.8,.2,1);
 }
 .reveal.in { opacity: 1; transform: none; }
@@ -281,7 +317,7 @@ html {
 .bank-card .copy-btn:hover { filter: brightness(1.2); }
 
 /* ===== AVATAR: latar krem hangat + bingkai maroon (daun & jas gelap tetap kontras) ===== */
-:root { --cream: #fce3e3; }
+:root { --cream: #f5bebe; }
 
 /* Avatar wajah (cover & penutup): bentuk lengkung seperti jendela */
 .avatar-img, .avatar-img-small {
