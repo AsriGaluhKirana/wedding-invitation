@@ -1,17 +1,16 @@
-// CONFIGURATION - REPLACE WITH YOUR ACTUAL VALUES
-const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwlHOnh3HEyT7WgUvT0i8hrykL8dQY39LrsBjqrNtI2wvq-svFYXyqDmwe_ofGYyM-V/exec";const WEDDING_DATE = new Date("October 25, 2026 09:00:00").getTime();
+// CONFIGURATION
+const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwlHOnh3HEyT7WgUvT0i8hrykL8dQY39LrsBjqrNtI2wvq-svFYXyqDmwe_ofGYyM-V/exec";
+const WEDDING_DATE = new Date("September 11, 2026 09:00:00").getTime();
 
-const VENUE_NAME = "Ruang Serbaguna Masjid Mujahidin, Jalan Palapa VI Jakarta Barat";
+const VENUE_NAME = "Nama Gedung / Hotel, Alamat Lengkap";
 const MAPS_URL = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(VENUE_NAME)}`;
 
-// Dynamic Google Calendar URL Construction
 const CAL_TITLE = encodeURIComponent("The Wedding of Groom & Bride");
 const CAL_DETAILS = encodeURIComponent("We are excited to celebrate our special day with you!");
 const CAL_LOCATION = encodeURIComponent(VENUE_NAME);
-const CAL_DATES = "20261025T020000Z/20261025T070000Z"; // UTC format
+const CAL_DATES = "20260911T020000Z/20260911T070000Z"; 
 const CALENDAR_URL = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${CAL_TITLE}&dates=${CAL_DATES}&details=${CAL_DETAILS}&location=${CAL_LOCATION}`;
 
-// Initialize Buttons and Countdown
 document.addEventListener("DOMContentLoaded", () => {
   document.getElementById("mapBtn").href = MAPS_URL;
   document.getElementById("saveTheDateBtn").href = CALENDAR_URL;
@@ -21,10 +20,10 @@ document.addEventListener("DOMContentLoaded", () => {
   setupForm();
 });
 
-// Open Invitation Interaction
+// FUNGSI YANG DICARI OLEH TOMBOL (openInvitation)
 function openInvitation() {
   document.getElementById("mainContent").classList.remove("hidden");
-  document.getElementById("couple").scrollIntoView({ behavior: "smooth" });
+  document.getElementById("mainContent").scrollIntoView({ behavior: "smooth" });
   
   const music = document.getElementById("bgMusic");
   music.play().catch(() => console.log("Autoplay blocked by browser."));
@@ -32,7 +31,6 @@ function openInvitation() {
   fetchWishes();
 }
 
-// Background Music Toggle
 function setupMusic() {
   const music = document.getElementById("bgMusic");
   const btn = document.getElementById("musicToggle");
@@ -40,22 +38,21 @@ function setupMusic() {
   btn.addEventListener("click", () => {
     if (music.paused) {
       music.play();
-      btn.innerHTML = '<i class="fas fa-music"></i>';
+      btn.innerHTML = '★ Tap to Pause Music';
     } else {
       music.pause();
-      btn.innerHTML = '<i class="fas fa-volume-mute"></i>';
+      btn.innerHTML = '★ Tap to Play Music';
     }
   });
 }
 
-// Countdown Timer Logic
 function startCountdown() {
   const updateTimer = () => {
     const now = new Date().getTime();
     const distance = WEDDING_DATE - now;
 
     if (distance < 0) {
-      document.getElementById("timer").innerHTML = "<p>The Wedding Day is Here!</p>";
+      document.getElementById("timer").innerHTML = "<p class='white-text'>The Wedding Day is Here!</p>";
       return;
     }
 
@@ -74,14 +71,15 @@ function startCountdown() {
   setInterval(updateTimer, 1000);
 }
 
-// RSVP Form Submission to Google Apps Script
 function setupForm() {
   const form = document.getElementById("rsvpForm");
   const status = document.getElementById("formStatus");
 
+  if(!form) return;
+
   form.addEventListener("submit", (e) => {
     e.preventDefault();
-    status.innerText = "Submitting your RSVP...";
+    status.innerText = "Mengirim RSVP...";
     status.style.color = "#ccc";
 
     const payload = {
@@ -99,25 +97,25 @@ function setupForm() {
     .then(res => res.json())
     .then(data => {
       if (data.result === "success") {
-        status.innerText = "Thank you! Your RSVP has been submitted.";
+        status.innerText = "Terima kasih! RSVP Anda telah terkirim.";
         status.style.color = "#a3e635";
         form.reset();
-        fetchWishes(); // Refresh wishes list
+        fetchWishes(); 
       } else {
         throw new Error(data.error);
       }
     })
     .catch(err => {
-      status.innerText = "Error submitting RSVP. Please try again.";
+      status.innerText = "Gagal mengirim. Silakan coba lagi.";
       status.style.color = "#f87171";
       console.error(err);
     });
   });
 }
 
-// Fetch & Display Wishes Real-time
 function fetchWishes() {
   const container = document.getElementById("wishesContainer");
+  if(!container) return;
 
   fetch(SCRIPT_URL)
     .then(res => res.json())
@@ -128,28 +126,19 @@ function fetchWishes() {
           const card = document.createElement("div");
           card.className = "wish-card";
 
-          const badgeClass = item.attendance === "Attending" ? "" : "not-attending";
-
           card.innerHTML = `
             <div>
               <span class="guest-name">${escapeHtml(item.name)}</span>
-              <span class="badge ${badgeClass}">${escapeHtml(item.attendance)}</span>
             </div>
             <p class="wish-message">"${escapeHtml(item.message)}"</p>
           `;
           container.appendChild(card);
         });
-      } else {
-        container.innerHTML = "<p>No messages yet. Be the first to send wishes!</p>";
       }
     })
-    .catch(err => {
-      container.innerHTML = "<p>Unable to load wishes at this moment.</p>";
-      console.error(err);
-    });
+    .catch(err => console.error(err));
 }
 
-// Helper to prevent XSS
 function escapeHtml(text) {
   return String(text)
     .replace(/&/g, "&amp;")
