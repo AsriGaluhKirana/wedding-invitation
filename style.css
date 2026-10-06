@@ -25,9 +25,14 @@ body {
 
 /* SISI KIRI: Sidebar Background & Info Mempelai */
 .desktop-sidebar {
-  flex: 1; position: relative; overflow: hidden; container-type: size;
-  /* posisi 50% 46.5% = pusat bingkai emas selalu di titik yang sama, berapa pun ukuran layar */
-  background: #6B0A28 url('background-clean.jpg') 50% 46.5% / cover no-repeat;
+  flex: 1;
+  background: linear-gradient(rgba(92, 22, 29, 0.75), rgba(92, 22, 29, 0.75)), url('minangkabau-bg.jpg') center/cover no-repeat;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  color: var(--white);
+  padding: 40px;
 }
 /* Teks di atas bingkai: ukuran ikut skala gambar (lebar gambar = max(100cqw, 70.9cqh)) */
 .crest-text {
