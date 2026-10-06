@@ -1,142 +1,231 @@
-// CONFIGURATION
+// ===== CONFIGURATION =====
 const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwlHOnh3HEyT7WgUvT0i8hrykL8dQY39LrsBjqrNtI2wvq-svFYXyqDmwe_ofGYyM-V/exec";
-const WEDDING_DATE = new Date("September 11, 2026 09:00:00").getTime();
+// +07:00 = WIB, supaya countdown sama untuk semua tamu di zona waktu mana pun
+const WEDDING_DATE = new Date("2026-09-11T09:00:00+07:00").getTime();
 
-const VENUE_NAME = "Nama Gedung / Hotel, Alamat Lengkap";
+const VENUE_NAME = "Dialoog Banyuwangi, Jl. Yos Sudarso, Klatak, Kalipuro, Banyuwangi";
 const MAPS_URL = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(VENUE_NAME)}`;
 
-const CAL_TITLE = encodeURIComponent("The Wedding of Groom & Bride");
+const CAL_TITLE = encodeURIComponent("The Wedding of Willow & Kala");
 const CAL_DETAILS = encodeURIComponent("We are excited to celebrate our special day with you!");
 const CAL_LOCATION = encodeURIComponent(VENUE_NAME);
-const CAL_DATES = "20260911T020000Z/20260911T070000Z"; 
+const CAL_DATES = "20260911T020000Z/20260911T070000Z"; // 09.00-14.00 WIB
 const CALENDAR_URL = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${CAL_TITLE}&dates=${CAL_DATES}&details=${CAL_DETAILS}&location=${CAL_LOCATION}`;
 
-document.addEventListener("DOMContentLoaded", () => {
-  document.getElementById("mapBtn").href = MAPS_URL;
-  document.getElementById("saveTheDateBtn").href = CALENDAR_URL;
+const $ = (s, r = document) => r.querySelector(s);
+const frame = $(".desktop-phone-frame");
+let observer;
 
+document.addEventListener("DOMContentLoaded", () => {
+  $("#mapBtn").href = MAPS_URL;
+  $("#saveTheDateBtn").href = CALENDAR_URL;
+
+  showGuestName();
+  setupReveal();
   startCountdown();
   setupMusic();
   setupForm();
+  setupCopy();
 });
 
-// FUNGSI YANG DICARI OLEH TOMBOL (openInvitation)
-function openInvitation() {
-  document.getElementById("mainContent").classList.remove("hidden");
-  document.getElementById("mainContent").scrollIntoView({ behavior: "smooth" });
-  
-  const music = document.getElementById("bgMusic");
-  music.play().catch(() => console.log("Autoplay blocked by browser."));
-  
-  fetchWishes();
+// Nama tamu dari link: ...index.html?to=Budi
+function showGuestName() {
+  const to = new URLSearchParams(location.search).get("to");
+  if (!to) return;
+  $("#guestName").textContent = to;
+  $("#guestLine").classList.remove("hidden");
 }
 
-function setupMusic() {
-  const music = document.getElementById("bgMusic");
-  const btn = document.getElementById("musicToggle");
+// ===== SCROLL REVEAL PER ELEMEN =====
+function setupReveal() {
+  // Desktop: frame yang di-scroll. HP: window yang di-scroll.
+  const scrollable = getComputedStyle(frame).overflowY !== "visible";
 
-  btn.addEventListener("click", () => {
-    if (music.paused) {
-      music.play();
-      btn.innerHTML = '★ Tap to Pause Music';
-    } else {
-      music.pause();
-      btn.innerHTML = '★ Tap to Play Music';
-    }
+  observer = new IntersectionObserver((entries) => {
+    entries
+      .filter((e) => e.isIntersecting)
+      .forEach((e, i) => {
+        const el = e.target;
+        el.style.transitionDelay = `${i * 110}ms`; // stagger untuk elemen yang muncul bersamaan
+        el.classList.add("in");
+        observer.unobserve(el);
+        setTimeout(() => (el.style.transitionDelay = ""), 1600);
+      });
+  }, { root: scrollable ? frame : null, threshold: 0.12, rootMargin: "0px 0px -6% 0px" });
+
+  [...$("#cover").children].forEach((el, i) => el.style.setProperty("--i", i));
+
+  addReveal($("#mainContent").querySelectorAll(
+    ".section > *:not(.couple-cards):not(.couple-illustrations):not(.button-group)," +
+    ".couple-cards > *, .couple-illustrations > *, .button-group > *," +
+    ".countdown-section > :not([class^='pearl']), .timeline-item, .footer-maroon > *"
+  ));
+}
+
+function addReveal(els) {
+  els.forEach((el) => {
+    if (el.classList.contains("reveal")) return;
+    el.classList.add("reveal");
+    observer.observe(el);
   });
 }
 
+// ===== BUKA UNDANGAN =====
+function openInvitation() {
+  if (document.body.classList.contains("opened")) return;
+  document.body.classList.add("opened");
+
+  const cover = $("#cover");
+  const main = $("#mainContent");
+
+  burstStars($(".btn-open").getBoundingClientRect());
+  $("#bgMusic").play().catch(() => console.log("Autoplay blocked by browser."));
+  fetchWishes();
+
+  cover.classList.add("leaving"); // elemen cover terbang keluar satu per satu
+
+  setTimeout(() => {
+    cover.classList.add("hidden");
+    main.classList.remove("hidden");
+    frame.scrollTo(0, 0);
+    window.scrollTo(0, 0);
+  }, 950);
+}
+
+function burstStars(rect) {
+  const colors = ["#5C161D", "#6F7D44", "#C9A24B"];
+  for (let i = 0; i < 18; i++) {
+    const s = document.createElement("span");
+    const angle = Math.random() * Math.PI * 2;
+    const dist = 90 + Math.random() * 170;
+    s.className = "burst";
+    s.textContent = "★";
+    s.style.left = rect.left + rect.width / 2 + "px";
+    s.style.top = rect.top + rect.height / 2 + "px";
+    s.style.color = colors[i % colors.length];
+    s.style.setProperty("--x", Math.cos(angle) * dist + "px");
+    s.style.setProperty("--y", Math.sin(angle) * dist + "px");
+    s.style.setProperty("--r", Math.random() * 360 + "deg");
+    document.body.appendChild(s);
+    setTimeout(() => s.remove(), 1400);
+  }
+}
+
+// ===== MUSIK =====
+function setupMusic() {
+  const music = $("#bgMusic");
+  const btn = $("#musicToggle");
+
+  btn.addEventListener("click", () => {
+    if (music.paused) music.play().catch(() => {});
+    else music.pause();
+  });
+  // Label selalu sinkron dengan kondisi musik sebenarnya
+  music.addEventListener("play", () => (btn.innerHTML = "★ Tap to Pause Music"));
+  music.addEventListener("pause", () => (btn.innerHTML = "★ Tap to Play Music"));
+}
+
+// ===== COUNTDOWN =====
 function startCountdown() {
-  const updateTimer = () => {
-    const now = new Date().getTime();
-    const distance = WEDDING_DATE - now;
+  const pad = (n) => String(n).padStart(2, "0");
+  let timerId;
+
+  const update = () => {
+    const distance = WEDDING_DATE - Date.now();
 
     if (distance < 0) {
-      document.getElementById("timer").innerHTML = "<p class='white-text'>The Wedding Day is Here!</p>";
+      clearInterval(timerId);
+      $("#timer").innerHTML = "<p class='white-text'>The Wedding Day is Here!</p>";
       return;
     }
 
-    const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-    const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-    const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-    const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-
-    document.getElementById("days").innerText = days < 10 ? '0' + days : days;
-    document.getElementById("hours").innerText = hours < 10 ? '0' + hours : hours;
-    document.getElementById("minutes").innerText = minutes < 10 ? '0' + minutes : minutes;
-    document.getElementById("seconds").innerText = seconds < 10 ? '0' + seconds : seconds;
+    $("#days").innerText = pad(Math.floor(distance / 86400000));
+    $("#hours").innerText = pad(Math.floor((distance % 86400000) / 3600000));
+    $("#minutes").innerText = pad(Math.floor((distance % 3600000) / 60000));
+    $("#seconds").innerText = pad(Math.floor((distance % 60000) / 1000));
   };
 
-  updateTimer();
-  setInterval(updateTimer, 1000);
+  update();
+  timerId = setInterval(update, 1000);
 }
 
+// ===== RSVP =====
 function setupForm() {
-  const form = document.getElementById("rsvpForm");
-  const status = document.getElementById("formStatus");
-
-  if(!form) return;
+  const form = $("#rsvpForm");
+  const status = $("#formStatus");
+  if (!form) return;
 
   form.addEventListener("submit", (e) => {
     e.preventDefault();
+    const submitBtn = form.querySelector("button[type=submit]");
+    submitBtn.disabled = true;
     status.innerText = "Mengirim RSVP...";
     status.style.color = "#ccc";
 
     const payload = {
-      fullName: document.getElementById("fullName").value,
-      attendance: document.getElementById("attendance").value,
-      guestCount: document.getElementById("guestCount").value,
-      message: document.getElementById("message").value
+      fullName: $("#fullName").value,
+      attendance: $("#attendance").value,
+      guestCount: $("#guestCount").value,
+      message: $("#message").value,
     };
 
     fetch(SCRIPT_URL, {
       method: "POST",
       body: JSON.stringify(payload),
-      headers: { "Content-Type": "text/plain;charset=utf-8" }
+      headers: { "Content-Type": "text/plain;charset=utf-8" },
     })
-    .then(res => res.json())
-    .then(data => {
-      if (data.result === "success") {
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.result !== "success") throw new Error(data.error);
         status.innerText = "Terima kasih! RSVP Anda telah terkirim.";
         status.style.color = "#a3e635";
         form.reset();
-        fetchWishes(); 
-      } else {
-        throw new Error(data.error);
-      }
-    })
-    .catch(err => {
-      status.innerText = "Gagal mengirim. Silakan coba lagi.";
-      status.style.color = "#f87171";
-      console.error(err);
-    });
+        fetchWishes();
+      })
+      .catch((err) => {
+        status.innerText = "Gagal mengirim. Silakan coba lagi.";
+        status.style.color = "#f87171";
+        console.error(err);
+      })
+      .finally(() => (submitBtn.disabled = false));
   });
 }
 
 function fetchWishes() {
-  const container = document.getElementById("wishesContainer");
-  if(!container) return;
+  const container = $("#wishesContainer");
+  if (!container) return;
 
   fetch(SCRIPT_URL)
-    .then(res => res.json())
-    .then(data => {
-      if (data.result === "success" && data.wishes.length > 0) {
-        container.innerHTML = "";
-        data.wishes.forEach(item => {
-          const card = document.createElement("div");
-          card.className = "wish-card";
-
-          card.innerHTML = `
-            <div>
-              <span class="guest-name">${escapeHtml(item.name)}</span>
-            </div>
-            <p class="wish-message">"${escapeHtml(item.message)}"</p>
-          `;
-          container.appendChild(card);
-        });
-      }
+    .then((res) => res.json())
+    .then((data) => {
+      if (data.result !== "success" || !data.wishes.length) return;
+      container.innerHTML = "";
+      data.wishes.forEach((item) => {
+        const card = document.createElement("div");
+        card.className = "wish-card";
+        card.innerHTML = `
+          <div><span class="guest-name">${escapeHtml(item.name)}</span></div>
+          <p class="wish-message">"${escapeHtml(item.message)}"</p>`;
+        container.appendChild(card);
+      });
+      addReveal(container.children); // kartu ucapan ikut animasi muncul
     })
-    .catch(err => console.error(err));
+    .catch((err) => console.error(err));
+}
+
+// ===== SALIN NOMOR REKENING =====
+function setupCopy() {
+  document.querySelectorAll("[data-copy]").forEach((btn) => {
+    btn.addEventListener("click", async () => {
+      try {
+        await navigator.clipboard.writeText(btn.dataset.copy);
+        btn.textContent = "Tersalin ✓";
+      } catch {
+        btn.textContent = "Salin manual";
+      }
+      setTimeout(() => (btn.textContent = "Salin"), 1600);
+    });
+  });
 }
 
 function escapeHtml(text) {

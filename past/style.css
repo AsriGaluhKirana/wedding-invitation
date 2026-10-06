@@ -1,0 +1,167 @@
+:root {
+  --maroon: #5C161D;
+  --olive: #5A6841;
+  --white: #FFFFFF;
+  --bg-color: #FAFAFA;
+  --text-dark: #333333;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: 'Quicksand', sans-serif;
+  background-color: #2b0b0e;
+  color: var(--text-dark);
+  height: 100vh;
+  overflow: hidden;
+}
+
+/* LAYOUT DESKTOP (SPLIT SCREEN) */
+.desktop-layout {
+  display: flex;
+  width: 100vw;
+  height: 100vh;
+}
+
+/* SISI KIRI: Sidebar Background & Info Mempelai */
+.desktop-sidebar {
+  flex: 1;
+  background: linear-gradient(rgba(92, 22, 29, 0.75), rgba(92, 22, 29, 0.75)), url('minangkabau-bg.jpg') center/cover no-repeat;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  color: var(--white);
+  padding: 40px;
+}
+
+.sidebar-content h1.title-handwriting {
+  font-size: 4rem;
+  color: #f3e5ab;
+  margin: 10px 0;
+}
+.sidebar-subtitle {
+  font-size: 1.1rem;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: #ddd;
+}
+.sidebar-date {
+  font-size: 1.2rem;
+  letter-spacing: 2px;
+  color: #f3e5ab;
+  margin-top: 10px;
+}
+
+/* SISI KANAN: Frame HP tempat konten undangan berada */
+.desktop-phone-frame {
+  width: 600px;
+  height: 100vh;
+  background-color: var(--white);
+  overflow-y: auto;
+  overflow-x: hidden; /* Mengunci total agar tidak bisa digeser ke kanan-kiri */
+  position: relative;
+  box-shadow: -10px 0 30px rgba(0,0,0,0.5);
+  flex-shrink: 0;
+}
+
+.hidden { display: none !important; }
+
+/* Tipografi & Komponen */
+.title-handwriting { font-family: 'Caveat', cursive; font-size: 2.3rem; line-height: 1.1; letter-spacing: 1px; }
+.title-sans { font-weight: 700; font-size: 1.2rem; letter-spacing: 2px; }
+.maroon-text { color: var(--maroon); }
+.olive-text { color: var(--olive); }
+.white-text { color: var(--white); }
+.maroon-bg { background-color: var(--maroon); }
+.olive-bg { background-color: var(--olive); }
+.text-center { text-align: center; }
+.mt-2 { margin-top: 20px; }
+.mb-2 { margin-bottom: 20px; }
+.w-100 { width: 100%; }
+
+.section { padding: 40px 20px; position: relative; }
+.btn-action, .btn-open {
+  border: none; color: var(--white); padding: 12px 24px; border-radius: 30px;
+  font-family: 'Quicksand', sans-serif; font-weight: 700; font-size: 1rem;
+  cursor: pointer; text-decoration: none; display: inline-block; margin: 5px;
+}
+
+.cover-section {
+  height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center;
+}
+.decor-top-right { position: absolute; top: -10px; right: -10px; width: 120px; transform: rotate(180deg); }
+.decor-bottom-left { position: absolute; bottom: 0; left: -10px; width: 120px; }
+
+.couple-illustrations { display: flex; justify-content: center; gap: 15px; margin: 30px 0; }
+.avatar-img { width: 110px; height: 140px; background-color: var(--maroon); border-radius: 40px; object-fit: cover; padding: 5px; }
+.avatar-img-small { width: 80px; height: 100px; background-color: var(--maroon); border-radius: 30px; padding: 3px; }
+
+.couple-cards { display: flex; justify-content: center; gap: 10px; margin: 20px 0; }
+.card-maroon {
+  background-color: var(--maroon); border-radius: 15px; width: 140px; height: 200px;
+  position: relative; display: flex; align-items: center; justify-content: center;
+}
+.card-maroon img.full-avatar { width: 90%; height: auto; }
+.pearl-chain {
+  position: absolute; width: 30px; height: 30px;
+  background: radial-gradient(circle, #fff 40%, transparent 50%); background-size: 10px 10px;
+}
+.parent-text { font-size: 0.9rem; color: #555; }
+.name-large { font-size: 3.5rem; }
+.ampersand { font-size: 3rem; margin: -10px 0; }
+
+.countdown-section { padding: 30px 20px; text-align: center; position: relative; }
+.pearl-border-top, .pearl-border-bottom {
+  height: 10px; width: 100%; background: radial-gradient(circle, #ddd 30%, transparent 40%);
+  background-size: 15px 15px; position: absolute; left: 0;
+}
+.pearl-border-top { top: 0; }
+.pearl-border-bottom { bottom: 0; }
+
+.timer-flex { display: flex; justify-content: center; gap: 10px; margin-top: 15px; }
+.time-box span { font-size: 2rem; font-weight: 700; color: var(--white); display: block; }
+.time-box label { font-size: 0.6rem; color: #ccc; letter-spacing: 1px; }
+
+.disco-img { width: 150px; margin-top: -30px; }
+.calendar-box { border-radius: 15px; padding: 20px; margin: 0 auto 30px; width: 90%; }
+.calendar-table { width: 100%; text-align: center; border-collapse: collapse; margin-top: 10px; }
+.calendar-table td, .calendar-table th { padding: 5px; font-weight: 600; }
+.highlight-star { position: relative; display: inline-block; z-index: 1; }
+.highlight-star::before {
+  content: "★"; position: absolute; top: -15px; left: -10px; font-size: 2.5rem; color: var(--white); z-index: -1; text-shadow: 0 0 5px rgba(0,0,0,0.5);
+}
+
+.love-story-section { padding: 40px 20px; }
+.timeline { position: relative; max-width: 400px; margin: 30px auto 0; }
+.timeline::after { content: ''; position: absolute; width: 2px; background-color: var(--olive); top: 0; bottom: 0; left: 14px; }
+.timeline-item { position: relative; padding-left: 40px; margin-bottom: 25px; }
+.timeline-dot { position: absolute; width: 16px; height: 16px; border-radius: 50%; left: 7px; top: 5px; z-index: 2; border: 3px solid var(--white); }
+
+.rsvp-form input, .rsvp-form select, .rsvp-form textarea {
+  width: 100%; padding: 12px; margin-bottom: 15px; border-radius: 10px; border: none; font-family: 'Quicksand', sans-serif; background-color: rgba(255,255,255,0.9);
+}
+.wishes-list { margin-top: 20px; text-align: left; }
+.wish-card { background: var(--white); color: var(--text-dark); padding: 15px; border-radius: 10px; margin-bottom: 10px; border-left: 4px solid var(--olive); }
+.wish-card .guest-name { font-weight: bold; }
+.wish-card .wish-message { font-size: 0.9rem; font-style: italic; margin-top: 5px; }
+
+.bank-card { border: 1px solid var(--olive); padding: 20px; border-radius: 5px; width: 80%; margin: 0 auto; box-shadow: 0 0 0 4px var(--white), 0 0 0 5px var(--olive); }
+.bank-logo { width: 100px; margin-bottom: 10px; }
+.bank-number { font-weight: 700; font-size: 1.1rem; letter-spacing: 2px; }
+
+.footer-maroon { padding: 40px 20px 60px; margin-top: 30px; border-radius: 30px 30px 0 0; }
+
+.music-btn {
+  position: fixed; bottom: 20px; left: 20px; background: rgba(255, 255, 255, 0.9);
+  color: var(--text-dark); border: none; padding: 8px 16px; border-radius: 20px;
+  font-family: 'Quicksand', sans-serif; font-weight: 600; z-index: 1000; cursor: pointer; box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+}
+
+/* RESPONSIF KHUSUS HP (TAMPILAN 1 KOLOM PENUH) */
+@media screen and (max-width: 768px) {
+  body { height: auto; overflow: auto; }
+  .desktop-layout { display: block; width: 100%; height: auto; }
+  .desktop-sidebar { display: none; } /* Sisi kiri disembunyikan di HP */
+  .desktop-phone-frame { width: 100%; height: auto; overflow-y: visible; box-shadow: none; }
+}
