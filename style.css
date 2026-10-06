@@ -208,7 +208,7 @@ html {
   animation-delay: calc(var(--i, 0) * .13s + .15s);
 }
 @keyframes rise { from { opacity: 0; transform: translateY(34px); } }
-.decor-top-right { animation: swayTop 6s ease-in-out infinite; transform-origin: 100% 0; }
+.decor-top-right { animation: swayTop 6s ease-in-out infinite; transform-origin: 50% 50%; }
 .decor-bottom-left { animation: swayBottom 7s ease-in-out infinite; transform-origin: 0 100%; }
 @keyframes swayTop { 0%,100% { transform: rotate(180deg); } 50% { transform: rotate(173deg); } }
 @keyframes swayBottom { 0%,100% { transform: rotate(0); } 50% { transform: rotate(5deg); } }
