@@ -1066,7 +1066,7 @@ html {
 
 /* Penyesuaian Iframe Peta */
 .map-placeholder {
-  width: 100%;
+  width: 60%;
   max-width: 420px;
   height: 250px;
   margin: 0 auto;
