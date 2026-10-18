@@ -132,13 +132,8 @@
           top: 0;
           bottom: 0;
           width: calc(100% - 600px);
-          background:
-            repeating-linear-gradient(
-              90deg,
-              rgba(255, 255, 255, 0.055) 0 2px,
-              transparent 2px 6px
-            ),
-            var(--green);
+          background-size: cover;
+          background-position: center;
           color: var(--ivory);
           flex-direction: column;
           align-items: center;
@@ -430,15 +425,29 @@
         border: 1px solid rgba(47, 74, 53, 0.08);
         cursor: zoom-in;
         display: block;
-        transition: transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.35s ease;
+        transition:
+          transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1),
+          box-shadow 0.35s ease;
       }
-      .gal img:nth-child(1) { transform: rotate(-2deg); }
-      .gal img:nth-child(2) { transform: rotate(1.5deg); }
-      .gal img:nth-child(3) { transform: rotate(-1.5deg); }
-      .gal img:nth-child(4) { transform: rotate(2deg); }
-      .gal img:nth-child(5) { transform: rotate(-2deg); }
-      .gal img:nth-child(6) { transform: rotate(1deg); }
-      
+      .gal img:nth-child(1) {
+        transform: rotate(-2deg);
+      }
+      .gal img:nth-child(2) {
+        transform: rotate(1.5deg);
+      }
+      .gal img:nth-child(3) {
+        transform: rotate(-1.5deg);
+      }
+      .gal img:nth-child(4) {
+        transform: rotate(2deg);
+      }
+      .gal img:nth-child(5) {
+        transform: rotate(-2deg);
+      }
+      .gal img:nth-child(6) {
+        transform: rotate(1deg);
+      }
+
       .gal img:hover {
         transform: scale(1.06) rotate(0deg) !important;
         box-shadow: 0 12px 28px rgba(47, 74, 53, 0.25);
@@ -487,7 +496,7 @@
         color: #fff;
         margin-top: 12px;
       }
-      
+
       /* Custom Attendance Cards */
       .att-options {
         display: grid;
@@ -973,7 +982,8 @@
             an: "Asri Galuh Kirana",
           },
         ],
-        rsvpUrl: "https://script.google.com/macros/s/AKfycbwHlxTD68bCb6AQ5pJEG71KpCsSbT3vY2jfZJy5xTgY77mHcnJ1EZ7XucLrNOEHx83fmA/exec",
+        rsvpUrl:
+          "https://script.google.com/macros/s/AKfycbwHlxTD68bCb6AQ5pJEG71KpCsSbT3vY2jfZJy5xTgY77mHcnJ1EZ7XucLrNOEHx83fmA/exec",
         music: "audio/lagu.mp3",
         images: {
           player: "images/foto-pemutar.jpg",
@@ -987,6 +997,7 @@
           countdown: "images/8-countdown.jpg",
           handLeft: "images/hand-left.png",
           handRight: "images/hand-right.png",
+          display: "images/display.jpg",
         },
       };
       /* ====================================================================== */
@@ -1045,16 +1056,24 @@
           <img
             id="coverImg"
             alt=""
-            onerror="
-              this.style.visibility = 'hidden';
-            "
+            onerror="this.style.visibility = 'hidden'"
           /><span class="sp s1">✦</span><span class="sp s2">✧</span
           ><span class="sp s3">✦</span>
         </div>
-        <div class="script" id="iNames" style="font-size: 2.2rem; margin-bottom: 12px;"></div>
-        <div style="margin: 10px 0 16px;">
-          <p style="font-size: 0.85rem; opacity: 0.85; margin-bottom: 2px;">Kepada Yth.</p>
-          <div class="guest" id="guest1" style="font-size: 1.15rem; word-break: break-word;"></div>
+        <div
+          class="script"
+          id="iNames"
+          style="font-size: 2.2rem; margin-bottom: 12px"
+        ></div>
+        <div style="margin: 10px 0 16px">
+          <p style="font-size: 0.85rem; opacity: 0.85; margin-bottom: 2px">
+            Kepada Yth.
+          </p>
+          <div
+            class="guest"
+            id="guest1"
+            style="font-size: 1.15rem; word-break: break-word"
+          ></div>
         </div>
         <button
           class="btn"
@@ -1068,10 +1087,12 @@
     <button id="music" aria-label="Putar/matikan musik">♪</button>
     <audio id="bgm" loop preload="auto"></audio>
 
-    <div class="side">
-      <p>The Wedding of</p>
-      <div class="script" id="sNames"></div>
-      <p style="font-size: 1.3rem; letter-spacing: 0.15em">10.01.2027</p>
+    <div class="side sec ov dark" data-bg="display">
+      <div class="in">
+        <p>The Wedding of</p>
+        <div class="script" id="sNames"></div>
+        <p style="font-size: 1.3rem; letter-spacing: 0.15em">10.01.2027</p>
+      </div>
     </div>
     <div class="phone">
       <main>
@@ -1284,14 +1305,30 @@
               <label class="t">Konfirmasi Kehadiran *</label>
               <div class="att-options">
                 <label class="att-card active">
-                  <input type="radio" name="att" value="Ya" checked onchange="updateAtt(this)">
+                  <input
+                    type="radio"
+                    name="att"
+                    value="Ya"
+                    checked
+                    onchange="updateAtt(this)"
+                  />
                   <span class="att-icon">💌</span>
-                  <span class="att-text"><b>Hadir</b><small>Dengan senang hati hadir</small></span>
+                  <span class="att-text"
+                    ><b>Hadir</b><small>Dengan senang hati hadir</small></span
+                  >
                 </label>
                 <label class="att-card">
-                  <input type="radio" name="att" value="Tidak" onchange="updateAtt(this)">
-                  <span class="att-icon">🤍</span>
-                  <span class="att-text"><b>Berhalangan</b><small>Mohon maaf, belum dapat hadir</small></span>
+                  <input
+                    type="radio"
+                    name="att"
+                    value="Tidak"
+                    onchange="updateAtt(this)"
+                  />
+                  <span class="att-icon">😢</span>
+                  <span class="att-text"
+                    ><b>Berhalangan</b
+                    ><small>Mohon maaf, belum dapat hadir</small></span
+                  >
                 </label>
               </div>
               <label class="t">Pilih Acara yang Dihadiri</label>
@@ -1353,6 +1390,11 @@
             <p class="fade" style="margin-top: 14px">See you on 10.01.2027</p>
             <p class="fade" style="margin-top: 14px">Hormat kami,</p>
             <div class="script fade" id="cName" style="font-size: 4rem"></div>
+            <div class="in">
+              <p class="fade" style="margin-top: 14px">
+                Created by : Galuh Printing
+              </p>
+            </div>
           </div>
         </section>
       </main>
@@ -1448,14 +1490,14 @@
             `<div class="bank fade"><img class="logo" src="${g.logo}" alt="" onerror="this.outerHTML='<b>${g.bank}</b>'"><p class="no">${g.no}</p><p class="an">a/n ${g.an}</p><button class="btn" onclick="copyText(this, '${g.no.replace(/ /g, "")}')">Salin</button></div>`,
         )
         .join("");
-      
+
       function copyText(btn, text) {
         navigator.clipboard.writeText(text);
-        btn.textContent = 'Tersalin ✓';
-        btn.style.background = '#4e7c59'; // optional styling effect or keep class
+        btn.textContent = "Tersalin ✓";
+        btn.style.background = "#4e7c59"; // optional styling effect or keep class
         setTimeout(() => {
-          btn.textContent = 'Salin';
-          btn.style.background = '';
+          btn.textContent = "Salin";
+          btn.style.background = "";
         }, 2000);
       }
 
@@ -1581,10 +1623,12 @@
           .catch(() => {});
       $("message").oninput = (e) =>
         ($("cnt").textContent = e.target.value.length + "/300");
-      
+
       function updateAtt(el) {
-        document.querySelectorAll('.att-card').forEach(c => c.classList.remove('active'));
-        el.closest('.att-card').classList.add('active');
+        document
+          .querySelectorAll(".att-card")
+          .forEach((c) => c.classList.remove("active"));
+        el.closest(".att-card").classList.add("active");
       }
 
       /* RSVP -> Google Sheet */
@@ -1602,6 +1646,7 @@
         };
         if (C.rsvpUrl.startsWith("PASTE")) {
           m.textContent = "URL Apps Script belum diisi.";
+          // Remove citation if any
           return;
         }
         m.textContent = "Mengirim…";
